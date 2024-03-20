@@ -9,7 +9,7 @@ public class JavaTest {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
         GenerateCDRFiles generator = context.getBean("generateCDRFiles", GenerateCDRFiles.class);
-        generator.generateTelephoneNumbers();
+        System.out.println(generator.generateTelephoneNumbers());
 
         context.close();
     }
