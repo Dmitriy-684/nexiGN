@@ -3,7 +3,6 @@ import app.generate.GenerateCDRFiles;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.time.Month;
 
 public class JavaTest {
     @Test
