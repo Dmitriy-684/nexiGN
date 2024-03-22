@@ -8,4 +8,5 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan("app")
 @PropertySource("classpath:application.properties")
 public class SpringConfig {
+
 }
