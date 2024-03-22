@@ -3,6 +3,9 @@ package app.generate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.*;
 
 import java.util.*;
@@ -10,45 +13,78 @@ import java.util.*;
 @Service
 public class GenerateCDRFiles {
     @Value("${generateCDRFiles.telephones.count}")
-    public int countOfPhoneNumbers;
-
+    private int countOfPhoneNumbers;
     @Value("${generateCDRFiles.currentYear}")
-    public int year;
+    private int year;
     @Value("${generateCDRFiles.callMinTime}")
-    public int differentMin;
+    private int callMinTime;
     @Value("${generateCDRFiles.callMaxTime}")
-    public int differentMax;
+    private int callMaxTime;
+    @Value("${generateCDRFiles.startYear}")
+    private byte startYear;
+    @Value("${generateCDRFiles.endYear}")
+    private byte endYear;
+    @Value("${generateCDRFiles.CDRpath}")
+    private String path;
+    private Map<Long, List<String>> cdrFile;
 
 
-    public Set<String> generateTelephoneNumbers() {
+    private Set<String> generateTelephoneNumbers() {
         Random random = new Random();
         Set<String> listOfNumbers = new HashSet<>();
         while (listOfNumbers.size() != countOfPhoneNumbers) {
-            StringBuilder builder = new StringBuilder("7");
-            builder.append(random.nextInt(920, 937));
-            builder.append(random.nextInt(1000000, 10000000));
-            listOfNumbers.add(builder.toString());
+            String builder = "7" + random.nextInt(920, 937) +
+                    random.nextInt(1000000, 10000000);
+            listOfNumbers.add(builder);
         }
         return listOfNumbers;
     }
-
-public List<Long> generatorTime(Month month){
+    private List<Long> generatorTime(Month month){
         List<Long> listTime = new ArrayList<>();
         Random random = new Random();
 
-    int daysInMonth = month.length(Year.isLeap(year));
+        int daysInMonth = month.length(Year.isLeap(year));
 
-    Instant dateStart = LocalDate.of(year, month, 1).atStartOfDay().atZone(ZoneId.of("UTC")).toInstant();
-    Instant dateEnd = LocalDate.of(year, month, daysInMonth).atStartOfDay().atZone(ZoneId.of("UTC")).toInstant();
+        Instant dateStart = LocalDate.of(year, month, 1).atStartOfDay().atZone(ZoneId.of("UTC")).toInstant();
+        Instant dateEnd = LocalDate.of(year, month, daysInMonth).atStartOfDay().atZone(ZoneId.of("UTC")).toInstant();
 
-        int different = random.nextInt(differentMin, differentMax);
-
-        for(long i = dateStart.getEpochSecond(); i < dateEnd.getEpochSecond(); i += different){
+        int callLength;
+        for(long i = dateStart.getEpochSecond(); i <= dateEnd.getEpochSecond(); i += callLength){
+            callLength = random.nextInt(callMinTime, callMaxTime);
             listTime.add(i);
         }
         if (listTime.size() % 2 != 0){
             listTime.remove(listTime.size() - 1);
         }
-        return listTime.stream().sorted().toList();
+        return listTime;
+    }
+    private String generateCallType() {return "0" + new Random().nextInt(1, 3);}
+    private void generateTransactionsMap(String phone, Month month) {
+        List<Long> times = generatorTime(month);
+
+        for (int i = 0; i < times.size(); i+=2) {
+            if (!cdrFile.containsKey(times.get(i))) cdrFile.put(times.get(i), new ArrayList<>());
+            cdrFile.get(times.get(i)).add(generateCallType() + "," + phone + ", " + times.get(i) + ", " + times.get(i+1));
+        }
+    }
+    private void generateCDRFile(String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path + fileName, true))) {
+            for (Map.Entry transactions: cdrFile.entrySet()) {
+                for (String transaction: (List<String>) transactions.getValue()) writer.write(transaction + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void generate() {
+        Set<String> phoneNumbers = generateTelephoneNumbers();
+        cdrFile = new TreeMap<>();
+        for (int month = startYear; month <= endYear; month++) {
+            for (String phone : phoneNumbers) {
+                generateTransactionsMap(phone, Month.of(month));
+            }
+            generateCDRFile("CDR_" + Month.of(month) + ".txt");
+            cdrFile.clear();
+        }
     }
 }
