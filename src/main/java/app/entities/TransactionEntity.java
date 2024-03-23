@@ -2,10 +2,7 @@ package app.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Setter
 @Getter
@@ -17,8 +14,7 @@ public class TransactionEntity {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne()
     private SubscriberEntity subscriberEntity;
 
     @Column(name = "call_type", nullable = false, length = 2)
@@ -30,6 +26,9 @@ public class TransactionEntity {
     @Column(name = "end_call", nullable = false)
     private String endCall;
 
+    @Column(name = "month_", nullable = false)
+    private String month;
+
     public void setSubscriberEntity(SubscriberEntity subscriberEntity){
         this.subscriberEntity = subscriberEntity;
     }
@@ -40,6 +39,7 @@ public class TransactionEntity {
                 ", callType=" + callType +
                 ", phone=" +  subscriberEntity.getPhone() +
                 ", startCall=" + startCall +
-                ", endCall=" + endCall + "}";
+                ", endCall=" + endCall +
+                ", month= " + month + "}";
     }
 }

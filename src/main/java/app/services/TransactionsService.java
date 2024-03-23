@@ -2,7 +2,6 @@ package app.services;
 
 import app.entities.TransactionEntity;
 import app.repositories.TransactionsRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
