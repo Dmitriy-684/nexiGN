@@ -3,7 +3,13 @@ package app;
 import app.config.SpringConfig;
 import app.db.DataBase;
 import app.generators.GenerateCDRFile;
+import app.generators.GenerateUDRFiles;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+/**
+ * A class that implements the launch of the application
+ * The class contains the main() method, which launches the application
+ */
 
 public class App {
     public static void main(String[] args) {
@@ -16,6 +22,8 @@ public class App {
             dataBase.saveSubscribersTransactions(generateCDRFile.getLastGeneratedCDRData(),
                     generateCDRFile.getSubscribersTelephones(), month);
         }
+        GenerateUDRFiles generateUDRFiles = context.getBean("generateUDRFiles", GenerateUDRFiles.class);
+        generateUDRFiles.generateReport();
         context.close();
     }
 }
