@@ -48,25 +48,53 @@ public class GenerateCDRFile {
         return subscribersTelephones;
     }
     public HashMap<String, ArrayList<String>> getLastGeneratedCDRData(){return lastGeneratedCDRData;}
-    private List<Long> generateTransactionsTime(Month month){
+    private List<Long> generateTransactionsTime(Month month) {
         List<Long> listTime = new ArrayList<>();
         Random random = new Random();
-
+        int callLength;
         int daysInMonth = month.length(Year.isLeap(year));
-
+        int flagSleep = 0;
         Instant dateStart = LocalDate.of(year, month, 1).atStartOfDay().atZone(ZoneId.of("UTC")).toInstant();
         Instant dateEnd = LocalDate.of(year, month, daysInMonth).atStartOfDay().atZone(ZoneId.of("UTC")).toInstant();
 
-        int callLength;
         for(long i = dateStart.getEpochSecond(); i <= dateEnd.getEpochSecond(); i += callLength){
-            callLength = random.nextInt(callMinTime, callMaxTime);
+            flagSleep += 1;
+            if (flagSleep % 2 == 0){
+                callLength = callStrategy(2);
+            }else {
+                callLength = callStrategy(1);
+            }
             listTime.add(i);
         }
+
         if (listTime.size() % 2 != 0){
             listTime.remove(listTime.size() - 1);
         }
         return listTime;
     }
+
+    public int callStrategy(int strategy){
+        Random random = new Random();
+        int callSleep = 0;
+        int callLength = 0;
+        if (strategy == 2){
+            callSleep = random.nextInt(100000,1000000);
+        } else {
+            callLength = random.nextInt(1,4);
+        }
+
+        if (callLength == 1){
+            callSleep = random.nextInt(300,3200);
+        }else if (strategy == 2){
+            callSleep = random.nextInt(100,400);
+        }else if (strategy == 3){
+            callSleep = random.nextInt(400,1000);
+        }else if (strategy == 4){
+            callSleep = random.nextInt(1000,2100);
+        }
+        return callSleep;
+    }
+
     private String generateCallType() {return "0" + new Random().nextInt(1, 3);}
     private void generateTransactionsMaps(String phone, Month month, Map<Long, List<String>> transactions) {
         List<Long> times = generateTransactionsTime(month);
