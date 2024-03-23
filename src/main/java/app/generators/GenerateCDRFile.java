@@ -25,7 +25,7 @@ public class GenerateCDRFile {
     private int startYear;
     @Value("${generateCDRFiles.endYear}")
     private int endYear;
-    @Value("${generateCDRFiles.cdrPath}")
+    @Value("${generateCDRFiles.CDRpath}")
     private String path;
     @Value("${generateCDRFiles.cdrFilePrefix}")
     private String cdrFilePrefix;
