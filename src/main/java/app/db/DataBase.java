@@ -2,8 +2,8 @@ package app.db;
 
 import app.entities.SubscriberEntity;
 import app.entities.TransactionEntity;
-import app.services.SubscribersService;
-import app.services.TransactionsService;
+import app.databaseServices.SubscribersService;
+import app.databaseServices.TransactionsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

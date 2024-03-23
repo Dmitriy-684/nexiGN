@@ -1,4 +1,4 @@
-package app.services;
+package app.databaseServices;
 
 import app.entities.SubscriberEntity;
 import app.repositories.SubscribersRepository;

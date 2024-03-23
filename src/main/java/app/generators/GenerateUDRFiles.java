@@ -1,4 +1,4 @@
-package app.generate;
+package app.generators;
 
 import app.parser.ParserClass;
 import app.udrServices.TimeConverter;
@@ -6,6 +6,7 @@ import app.udrServices.DirectoryReports;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.time.Month;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
+@Scope(scopeName = "prototype")
 public class GenerateUDRFiles {
     @Value("${generateCDRFiles.startYear}")
     private byte startYear;
