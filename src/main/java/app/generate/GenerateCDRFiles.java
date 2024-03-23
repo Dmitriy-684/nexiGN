@@ -39,7 +39,7 @@ public class GenerateCDRFiles {
         }
         return listOfNumbers;
     }
-    private List<Long> generatorTime(Month month){
+    private List<Long> generatorTime(Month month) {
         List<Long> listTime = new ArrayList<>();
         Random random = new Random();
 
@@ -68,7 +68,7 @@ public class GenerateCDRFiles {
         }
     }
     private void generateCDRFile(String fileName) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path + fileName, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path + fileName))) {
             for (Map.Entry transactions: cdrFile.entrySet()) {
                 for (String transaction: (List<String>) transactions.getValue()) writer.write(transaction + "\n");
             }
@@ -83,6 +83,7 @@ public class GenerateCDRFiles {
             for (String phone : phoneNumbers) {
                 generateTransactionsMap(phone, Month.of(month));
             }
+
             generateCDRFile("CDR_" + Month.of(month) + ".txt");
             cdrFile.clear();
         }
