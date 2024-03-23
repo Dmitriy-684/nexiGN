@@ -2,7 +2,6 @@ package app.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
@@ -17,7 +16,7 @@ public class SubscriberEntity {
     @Column(name = "phone", nullable = false, unique = true, length = 11)
     private String phone;
 
-    @OneToMany(mappedBy = "subscriberEntity")
+    @OneToMany(mappedBy = "subscriberEntity", fetch = FetchType.EAGER)
     private Set<TransactionEntity> transactionEntitySet = new HashSet<>();
     public void addTransaction(TransactionEntity transactionEntity){
         transactionEntitySet.add(transactionEntity);
