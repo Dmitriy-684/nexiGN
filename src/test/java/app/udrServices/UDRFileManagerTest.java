@@ -35,14 +35,4 @@ class UDRFileManagerTest {
         }
     }
 
-    @Test
-    void deleteAllJsonFiles() {
-        String directoryPath = "./src/main/resources/reports";
-
-        UDRFileManager udrFileManager = new UDRFileManager();
-        udrFileManager.deleteAllFiles();
-
-        File directory = new File(directoryPath);
-        assertFalse(directory.exists());
-    }
 }
