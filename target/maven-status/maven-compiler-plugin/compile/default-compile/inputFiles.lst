@@ -1,0 +1,15 @@
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\App.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\generators\GenerateUDRFile.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\repositories\SubscribersRepository.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\repositories\TransactionsRepository.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\udrServices\UDRFileManager.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\databaseServices\SubscribersService.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\cdrServices\CDRFileManager.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\generators\GenerateCDRFile.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\udrServices\ParserClass.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\entities\TransactionEntity.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\databaseServices\TransactionsService.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\entities\SubscriberEntity.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\udrServices\TimeConverter.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\config\SpringConfig.java
+C:\Users\dmitr\IdeaProjects\nexiGN_task\src\main\java\app\db\DataBase.java

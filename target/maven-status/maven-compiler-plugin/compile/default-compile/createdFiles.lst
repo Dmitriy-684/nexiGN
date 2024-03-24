@@ -1,0 +1,15 @@
+app\repositories\TransactionsRepository.class
+app\databaseServices\SubscribersService.class
+app\databaseServices\TransactionsService.class
+app\cdrServices\CDRFileManager.class
+app\config\SpringConfig.class
+app\udrServices\UDRFileManager.class
+app\entities\SubscriberEntity.class
+app\repositories\SubscribersRepository.class
+app\udrServices\TimeConverter.class
+app\udrServices\ParserClass.class
+app\generators\GenerateCDRFile.class
+app\App.class
+app\generators\GenerateUDRFile.class
+app\db\DataBase.class
+app\entities\TransactionEntity.class
