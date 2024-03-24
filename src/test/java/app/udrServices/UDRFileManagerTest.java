@@ -12,10 +12,10 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class DirectoryReportsTest {
+class UDRFileManagerTest {
 
     @Autowired
-    private DirectoryReports directoryReports;
+    private UDRFileManager UDRFileManager;
 
     @Test
     void writeToFileTest() {
@@ -23,7 +23,7 @@ class DirectoryReportsTest {
 
         String data = "Test text";
 
-        directoryReports.writeToFile(filePath, data);
+        UDRFileManager.writeToFile(filePath, data);
 
         assertTrue(new File(filePath).exists());
 
@@ -47,7 +47,7 @@ class DirectoryReportsTest {
             e.printStackTrace();
         }
 
-        directoryReports.deleteAllJsonFiles();
+        UDRFileManager.deleteAllFiles();
 
         assertFalse(testFile1.exists());
         assertFalse(testFile2.exists());

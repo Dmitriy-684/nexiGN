@@ -1,8 +1,8 @@
 package app.generators;
 
-import app.parser.ParserClass;
+import app.udrServices.ParserClass;
 import app.udrServices.TimeConverter;
-import app.udrServices.DirectoryReports;
+import app.udrServices.UDRFileManager;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +22,7 @@ import java.util.Set;
  * endYear - month of the end of the billing period
  * pathToUDR - path to the directory /udrFiles
  * parser - a service that structures data from CDR files
- * directoryReports - a service that implements editing and working with the directory /reports
+ * udrManager - a service that implements editing and working with the directory /reports
  * time Converter - a service that implements the conversion of Unix-time format time to H:M:S format time
  * globalSummary - a structure containing information about the total time of outgoing and incoming calls from all users for the entire billing period
  * phones - list of phones of all users
@@ -35,7 +35,7 @@ import java.util.Set;
 
 @Service
 @Scope(scopeName = "prototype")
-public class GenerateUDRFiles {
+public class GenerateUDRFile {
     @Value("${generateCDRFiles.startYear}")
     private byte startYear;
     @Value("${generateCDRFiles.endYear}")
@@ -45,7 +45,7 @@ public class GenerateUDRFiles {
     @Autowired
     private ParserClass parser;
     @Autowired
-    private DirectoryReports directoryReports;
+    private UDRFileManager udrManager;
     @Autowired
     private TimeConverter timeConverter;
     private Map<Integer, Map<String, List<Long>>> globalSummary;
@@ -65,7 +65,7 @@ public class GenerateUDRFiles {
         List<Long> totalTimeCall = globalSummary.get(month).get(phoneNumber);
         String incomingCall = timeConverter.convertFromUnixTime(totalTimeCall.get(0));
         String outcomingCall = timeConverter.convertFromUnixTime(totalTimeCall.get(1));
-        directoryReports.writeToFile(pathName,
+        udrManager.writeToFile(pathName,
                 "{\n" +
                 "   \"msisdn\": \"" + phoneNumber + "\",\n" +
                 "   \"incomingCall\": {\n" +
@@ -83,12 +83,13 @@ public class GenerateUDRFiles {
     }
 //    @Bean
     @PostConstruct
-    public void getAllDataFromUDRFiles() {
+    public void getAllDataFromCDRFiles() {
         globalSummary = new HashMap<>();
         for (int month = startYear; month <= endYear; month++) {
             globalSummary.put(month, parser.summaryByFile(parser.readAllFileByMonth(Month.of(month))));
         }
         phones = parser.getPhoneNumbers(parser.readAllFileByMonth(Month.of(startYear)));
-        directoryReports.deleteAllJsonFiles();
+        if (!udrManager.isDirectoryExists()) udrManager.createDirectory();
+        if (!udrManager.isDirectoryEmpty()) udrManager.deleteAllFiles();
     }
 }
