@@ -65,7 +65,7 @@ public class GenerateUDRFiles {
     }
 //    @Bean
     @PostConstruct
-    public void getAllDataFromUDRFiles() {
+    public void getAllDataFromCDRFiles() {
         globalSummary = new HashMap<>();
         for (int month = startYear; month <= endYear; month++) {
             globalSummary.put(month, parser.summaryByFile(parser.readAllFileByMonth(Month.of(month))));
