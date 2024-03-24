@@ -10,6 +10,16 @@ import org.springframework.stereotype.Service;
 import java.time.Month;
 import java.util.*;
 
+/**
+ * A class that implements the H2 database service
+ * The class contains the fields:
+ * subscribersServices - a service for working with the subscribers table
+ * transactionsService - a service for working with the transaction table
+ * The class contains methods:
+ * saveAllSubscribersTelephone(Set<String> phones) - saves all subscribers' phones to the database
+ * saveSubscribersTransactions(HashMap<String, ArrayList<String>> transactions, Set<String> phone, int month) - saves all transactions of one subscriber to the database
+ */
+
 @Service("baseH2")
 @RequiredArgsConstructor
 public class DataBase {

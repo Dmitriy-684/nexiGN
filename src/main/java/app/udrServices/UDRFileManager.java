@@ -16,7 +16,10 @@ import java.util.Objects;
  * directoryPath - path to the /reports directory
  * The class contains the following methods:
  * writeToFile(String pathName, String data) - writing data to a file by pathName
- * deleteAllJsonFiles() - clears the /reports directory
+ * isDirectoryExists() - returns true if directory /reports exist, else return false
+ * isDirectoryEmpty() - returns true if directory /reports empty, else return false
+ * createDirectory() - create the directory /reports
+ * deleteAllFiles() - clears the /reports directory
  */
 
 @Service

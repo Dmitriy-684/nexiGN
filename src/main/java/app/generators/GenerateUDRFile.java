@@ -24,7 +24,8 @@ import java.util.Set;
  * pathToUDR - path to the directory /udrFiles
  * parser - a service that structures data from CDR files
  * udrManager - a service that implements editing and working with the directory /reports
- * time Converter - a service that implements the conversion of Unix-time format time to H:M:S format time
+ * cdrManager - a service that implements editing and working with the directory /cdrFiles
+ * timeConverter - a service that implements the conversion of Unix-time format time to H:M:S format time
  * globalSummary - a structure containing information about the total time of outgoing and incoming calls from all users for the entire billing period
  * phones - list of phones of all users
  * The class contains methods:

@@ -13,16 +13,40 @@ import java.time.*;
 
 import java.util.*;
 
+/**
+ * A class that implements the generation of CDR files and pseudo-random data for them
+ * The class contains the fields:
+ * countOfPhone Numbers - the number of subscribers
+ * year - billing year
+ * startYear - month of the beginning of the billing period
+ * endYear - month of the end of the billing period
+ * path - path to the directory /cdrFiles
+ * cdrFilePrefix - CDR file prefix (CDR_)
+ * cdrFileType - type of CDR file
+ * subscribersTelephones - list of phones of all subscribers
+ * lastGeneratedCDRData - a field that contains all transactions of the last generated CDR file
+ * cdrManager - a service that implements editing and working with the directory /cdrFiles
+ * The class contains methods:
+ * generateSubscribersTelephones() - generates pseudorandom subscriber phones
+ * getStartYear() - returns the month of the beginning of the billing period
+ * getEndYear() - returns the month of the end of the billing period
+ * getSubscribersTelephones() - returns a list of phone numbers of all subscribers
+ * getLastGeneratedCDRData() - returns all transactions of the last generated CDR file
+ * generateTransactionsTime(Month month) - returns a list of the start and end points of one user's transactions for one month in Unix-time format
+ * generateTimeS(int timeCoeff) - returns the sleep time between calls for the user
+ * generateCallType() - returns a pseudo-random transaction type (incoming/outgoing)
+ * generateTransactionsMaps(String phone, Month month, Map<Long, List<String>> transactions) - generates all transactions in one month for one subscriber
+ * and fills in the lastGeneratedCDRData field
+ * writeToCDR(String fileName, Map<Long, List<String>> cdrData) - creates a CDR file and writes all transactions to it all users per month
+ * generateCDR(int month) - the main method of the class, creates and writes all transactions for a month to a CDR file
+ */
+
 @Service
 public class GenerateCDRFile {
     @Value("${generateCDRFiles.telephones.count}")
     private int countOfPhoneNumbers;
     @Value("${generateCDRFiles.currentYear}")
     private int year;
-    @Value("${generateCDRFiles.callMinTime}")
-    private int callMinTime;
-    @Value("${generateCDRFiles.callMaxTime}")
-    private int callMaxTime;
     @Value("${generateCDRFiles.startYear}")
     private int startYear;
     @Value("${generateCDRFiles.endYear}")

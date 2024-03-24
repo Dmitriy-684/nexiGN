@@ -8,6 +8,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * A class that implements editing of the /cdrFiles directory
+ * The class contains the fields:
+ * directoryPath - path to the /cdrFiles directory
+ * The class contains the following methods:
+ * isDirectoryExists() - returns true if directory /cdrFiles exist, else return false
+ * isDirectoryEmpty() - returns true if directory /cdrFiles empty, else return false
+ * createDirectory() - create the directory /cdrFiles
+ * deleteAllFiles() - clears the /cdrFiles directory
+ */
+
 @Service
 public class CDRFileManager {
     @Value("${cdrFileManager.pathToCDRDirectory}")
