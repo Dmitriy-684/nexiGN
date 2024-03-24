@@ -4,6 +4,19 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * A class that implements the essence of a transaction in a database
+ * The class has the following methods:
+ * id - transaction id
+ * subscriberEntity - reference to the table of subscribers
+ * callType - type of call in transaction
+ * startCall - time of the start of the call
+ * endCall - the end time of the call
+ * month - the month in which the call was made
+ * setSubscriberIdentity(Subscriber Identity subscriber Identity) - sets a link to the table of subscribers
+ * String toString() - returns information about the transaction
+ */
+
 @Setter
 @Getter
 @Entity

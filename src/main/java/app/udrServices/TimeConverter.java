@@ -2,6 +2,11 @@ package app.udrServices;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * A class that converts Unix-time format time to H format time:M:S
+ * The class contains the convertFromUnixTime(Long time) method, which converts time to time in the H:M:S format
+ */
+
 @Service
 public class TimeConverter {
     public String convertFromUnixTime(Long time) {
