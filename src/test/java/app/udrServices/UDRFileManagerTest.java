@@ -11,10 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class UDRFileManagerTest {
-
-//    @Autowired
-//    private UDRFileManager udrFileManager;
-
     @Test
     void writeToFileTest() {
         UDRFileManager udrFileManager = new UDRFileManager();
