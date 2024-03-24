@@ -20,7 +20,7 @@ class UDRFileManagerTest {
     @Test
     void writeToFileTest() {
         UDRFileManager udrFileManager = new UDRFileManager();
-        String filePath = "./src/main/resources/reports/TestFile";
+        String filePath = "./reports/TestFile";
 
         String data = "Test text";
 
