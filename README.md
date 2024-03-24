@@ -122,7 +122,11 @@ UDR будет агрегировать данные по абонентам и 
 msisdn  - Mobile Subscriber Integrated Services Digital Number - номер мобильного абонента цифровой сети._ 
 
 # Описание решения
-## Схема базы данных
+## Схема базы данных  
+
+![ERD](/images/db.png")
+
+
 
 
 
