@@ -121,6 +121,10 @@ UDR будет агрегировать данные по абонентам и 
 * _UDR - Usage Data Report - Отчет об использовании данных;
 msisdn  - Mobile Subscriber Integrated Services Digital Number - номер мобильного абонента цифровой сети._ 
 
+# Описание решения
+## Схема базы данных
+
+
 
 
 
