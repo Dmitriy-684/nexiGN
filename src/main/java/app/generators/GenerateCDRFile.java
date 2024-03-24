@@ -1,6 +1,8 @@
 package app.generators;
 
+import app.cdrServices.CDRFileManager;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,9 @@ public class GenerateCDRFile {
     private String cdrFileType;
     private final Set<String> subscribersTelephones = new HashSet<>();
     private HashMap<String, ArrayList<String>> lastGeneratedCDRData;
+    @Autowired
+    private CDRFileManager cdrManager;
+
     @PostConstruct
     private void generateSubscribersTelephones() {
         Random random = new Random();
@@ -41,6 +46,8 @@ public class GenerateCDRFile {
                     random.nextInt(1000000, 10000000);
             subscribersTelephones.add(builder);
         }
+        if (!cdrManager.isDirectoryExists()) cdrManager.createDirectory();
+        if (!cdrManager.isDirectoryEmpty()) cdrManager.deleteAllFiles();
     }
     public int getStartYear(){return startYear;}
     public int getEndYear(){return endYear;}

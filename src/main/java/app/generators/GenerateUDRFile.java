@@ -1,5 +1,6 @@
 package app.generators;
 
+import app.cdrServices.CDRFileManager;
 import app.udrServices.ParserClass;
 import app.udrServices.TimeConverter;
 import app.udrServices.UDRFileManager;
@@ -47,49 +48,60 @@ public class GenerateUDRFile {
     @Autowired
     private UDRFileManager udrManager;
     @Autowired
+    private CDRFileManager cdrManager;
+    @Autowired
     private TimeConverter timeConverter;
     private Map<Integer, Map<String, List<Long>>> globalSummary;
     private Set<String> phones;
-
     public void generateReport() {
-        for (String phone: phones) {
-            generateReport(phone);
+        if (globalSummary != null) {
+            for (String phone : phones) {
+                generateReport(phone);
+            }
         }
     }
     public void generateReport(String phoneNumber) {
-        for (int month = startYear; month <= endYear; month++)
-            generateReport(phoneNumber, month);
+        if (globalSummary != null) {
+            for (int month = startYear; month <= endYear; month++)
+                generateReport(phoneNumber, month);
+        }
     }
     public void generateReport(String phoneNumber, int month) {
-        String pathName = pathToUDR + phoneNumber + "_" + month + ".json";
-        List<Long> totalTimeCall = globalSummary.get(month).get(phoneNumber);
-        String incomingCall = timeConverter.convertFromUnixTime(totalTimeCall.get(0));
-        String outcomingCall = timeConverter.convertFromUnixTime(totalTimeCall.get(1));
-        udrManager.writeToFile(pathName,
-                "{\n" +
-                "   \"msisdn\": \"" + phoneNumber + "\",\n" +
-                "   \"incomingCall\": {\n" +
-                "        \"totalTime\": \"" + incomingCall + "\"\n" +
-                "   },\n" +
-                "   \"outcomingCall\": {\n" +
-                "        \"totalTime\": \"" + outcomingCall + "\"\n" +
-                "   }\n" +
-                "}");
+        if (globalSummary != null) {
+            String pathName = pathToUDR + phoneNumber + "_" + month + ".json";
+            List<Long> totalTimeCall = globalSummary.get(month).get(phoneNumber);
+            String incomingCall = timeConverter.convertFromUnixTime(totalTimeCall.get(0));
+            String outcomingCall = timeConverter.convertFromUnixTime(totalTimeCall.get(1));
+            udrManager.writeToFile(pathName,
+                    "{\n" +
+                            "   \"msisdn\": \"" + phoneNumber + "\",\n" +
+                            "   \"incomingCall\": {\n" +
+                            "        \"totalTime\": \"" + incomingCall + "\"\n" +
+                            "   },\n" +
+                            "   \"outcomingCall\": {\n" +
+                            "        \"totalTime\": \"" + outcomingCall + "\"\n" +
+                            "   }\n" +
+                            "}");
 
-        System.out.println("\n\nНомер телефона: " + phoneNumber + "\n" +
-                "Месяц: " + Month.of(month) + "\n" +
-                "Продолжительность входящих звонков: " + incomingCall + "\n" +
-                "Продолжительность исходящих звонков: " + outcomingCall + "\n\n");
+            System.out.println("\n\nНомер телефона: " + phoneNumber + "\n" +
+                    "Месяц: " + Month.of(month) + "\n" +
+                    "Продолжительность входящих звонков: " + incomingCall + "\n" +
+                    "Продолжительность исходящих звонков: " + outcomingCall + "\n\n");
+        }
     }
 //    @Bean
     @PostConstruct
     public void getAllDataFromCDRFiles() {
-        globalSummary = new HashMap<>();
-        for (int month = startYear; month <= endYear; month++) {
-            globalSummary.put(month, parser.summaryByFile(parser.readAllFileByMonth(Month.of(month))));
+        if (cdrManager.isDirectoryEmpty()) {
+            System.out.println("\nCDR files is not created\n");
+        } else {
+            globalSummary = new HashMap<>();
+            for (int month = startYear; month <= endYear; month++) {
+                globalSummary.put(month, parser.summaryByFile(parser.readAllFileByMonth(Month.of(month))));
+            }
+            phones = parser.getPhoneNumbers(parser.readAllFileByMonth(Month.of(startYear)));
+            if (!udrManager.isDirectoryExists()) udrManager.createDirectory();
+            if (!udrManager.isDirectoryEmpty()) udrManager.deleteAllFiles();
         }
-        phones = parser.getPhoneNumbers(parser.readAllFileByMonth(Month.of(startYear)));
-        if (!udrManager.isDirectoryExists()) udrManager.createDirectory();
-        if (!udrManager.isDirectoryEmpty()) udrManager.deleteAllFiles();
     }
 }
