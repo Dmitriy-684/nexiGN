@@ -91,7 +91,7 @@ public class GenerateUDRFile {
     }
 //    @Bean
     @PostConstruct
-    public void getAllDataFromCDRFiles() {
+    private void getAllDataFromCDRFiles() {
         if (cdrManager.isDirectoryEmpty()) {
             System.out.println("\nCDR files is not created\n");
         } else {
