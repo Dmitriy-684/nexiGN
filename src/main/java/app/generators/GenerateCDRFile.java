@@ -152,6 +152,8 @@ public class GenerateCDRFile {
     public void generateCDR(int month) {
         Map<Long, List<String>> transactions = new TreeMap<>();
         lastGeneratedCDRData = new HashMap<>();
+        if (!cdrManager.isDirectoryExists()) cdrManager.createDirectory();// добавил для теста
+        if (!cdrManager.isDirectoryEmpty()) cdrManager.deleteAllFiles();//добавил для теста
         for (String phone : subscribersTelephones) {
             generateTransactionsMaps(phone, Month.of(month), transactions);
         }
