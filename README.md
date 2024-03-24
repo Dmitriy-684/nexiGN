@@ -123,7 +123,7 @@ msisdn  - Mobile Subscriber Integrated Services Digital Number - номер мо
 
 # Описание решения
 ## Схема базы данных 
-![ERD](/images/db.jpg)
+![ERD](db.jpg)
 
 
 
