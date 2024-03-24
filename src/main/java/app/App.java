@@ -23,7 +23,6 @@ public class App {
                     generateCDRFile.getSubscribersTelephones(), month);
         }
         GenerateUDRFile generateUDRFile = context.getBean("generateUDRFile", GenerateUDRFile.class);
-
         generateUDRFile.generateReport();
         context.close();
     }
