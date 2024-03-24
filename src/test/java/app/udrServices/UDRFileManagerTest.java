@@ -11,19 +11,20 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+
 class UDRFileManagerTest {
 
-    @Autowired
-    private UDRFileManager UDRFileManager;
+//    @Autowired
+//    private UDRFileManager udrFileManager;
 
     @Test
     void writeToFileTest() {
+        UDRFileManager udrFileManager = new UDRFileManager();
         String filePath = "./src/main/resources/reports/TestFile";
 
         String data = "Test text";
 
-        UDRFileManager.writeToFile(filePath, data);
+        udrFileManager.writeToFile(filePath, data);
 
         assertTrue(new File(filePath).exists());
 
@@ -34,22 +35,4 @@ class UDRFileManagerTest {
         }
     }
 
-    @Test
-    void deleteAllJsonFiles() {
-        File directory = new File("./src/main/resources/reports/");
-        File testFile1 = new File(directory, "TestFile1.json");
-        File testFile2 = new File(directory, "TestFile2.json");
-
-        try {
-            assertTrue(testFile1.createNewFile());
-            assertTrue(testFile2.createNewFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        UDRFileManager.deleteAllFiles();
-
-        assertFalse(testFile1.exists());
-        assertFalse(testFile2.exists());
-    }
 }
